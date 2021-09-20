@@ -14,32 +14,10 @@
 			"type": ["null", "object"],
 			"properties": {
 				"click_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				},
 				"view_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				}
 			}
 		},
@@ -47,32 +25,10 @@
 			"type": ["null", "object"],
 			"properties": {
 				"click_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				},
 				"view_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				}
 			}
 		},
@@ -107,32 +63,10 @@
 			"type": ["null", "object"],
 			"properties": {
 				"click_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				},
 				"view_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				}
 			}
 		},
@@ -159,62 +93,18 @@
 			"type": ["null", "object"],
 			"properties": {
 				"click_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				},
 				"view_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				}
 			}
 		},
 		"legacy_click_conversions": {
-			"type": ["null", "object"],
-			"properties": {
-				"attribution_window_day": {
-					"type": ["null", "integer"]
-				},
-				"attribution_window_month": {
-					"type": ["null", "integer"]
-				},
-				"attribution_window_week": {
-					"type": ["null", "integer"]
-				}
-			}
+			"type": ["null", "string"]
 		},
 		"legacy_view_conversions": {
-			"type": ["null", "object"],
-			"properties": {
-				"attribution_window_day": {
-					"type": ["null", "integer"]
-				},
-				"attribution_window_month": {
-					"type": ["null", "integer"]
-				},
-				"attribution_window_week": {
-					"type": ["null", "integer"]
-				}
-			}
+			"type": ["null", "string"]
 		},
 		"metro": {
 			"type": ["null", "integer"]
@@ -223,32 +113,10 @@
 			"type": ["null", "object"],
 			"properties": {
 				"click_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				},
 				"view_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				}
 			}
 		},
@@ -265,32 +133,10 @@
 			"type": ["null", "object"],
 			"properties": {
 				"click_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				},
 				"view_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				}
 			}
 		},
@@ -301,32 +147,10 @@
 			"type": ["null", "object"],
 			"properties": {
 				"click_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				},
 				"view_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				}
 			}
 		},
@@ -334,32 +158,10 @@
 			"type": ["null", "object"],
 			"properties": {
 				"click_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				},
 				"view_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				}
 			}
 		},
@@ -409,32 +211,10 @@
 			"type": ["null", "object"],
 			"properties": {
 				"click_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				},
 				"view_through_conversions": {
-					"type": ["null", "object"],
-					"properties": {
-						"attribution_window_day": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_month": {
-							"type": ["null", "integer"]
-						},
-						"attribution_window_week": {
-							"type": ["null", "integer"]
-						}
-					}
+					"type": ["null", "string"]
 				}
 			}
 		},
