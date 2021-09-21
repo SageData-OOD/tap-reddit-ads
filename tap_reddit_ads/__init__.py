@@ -10,8 +10,7 @@ from singer.catalog import Catalog, CatalogEntry
 from singer.schema import Schema
 from singer.transform import transform
 
-REQUIRED_CONFIG_KEYS = ["starts_at", "account_id", "access_token", "refresh_token", "client_id", "client_secret",
-                        "user_agent"]
+REQUIRED_CONFIG_KEYS = ["starts_at", "account_id", "refresh_token", "client_id", "client_secret", "user_agent"]
 LOGGER = singer.get_logger()
 HOST = "https://ads-api.reddit.com"
 PATH = "/api/v2.0/accounts/{account_id}/reports"
@@ -110,7 +109,7 @@ def request_data(config, attr, headers):
     if attr:
         url += "?" + "&".join([f"{k}={v}" for k, v in attr.items()])
 
-    if refresh_access_token_if_expired(config):
+    if refresh_access_token_if_expired(config) or not headers:
         headers.update({'Authorization': f'bearer {config["access_token"]}'})
 
     response = requests.get(url, headers=headers)
@@ -137,15 +136,13 @@ def sync(config, state, catalog):
             schema=schema,
             key_properties=stream.key_properties,
         )
-
-        headers = {'Authorization': f'bearer {config["access_token"]}'}
+        headers = dict()
         attr = dict()
-
         starts_at = singer.get_bookmark(state, stream.tap_stream_id, bookmark_column).split(" ")[0] \
             if state.get("bookmarks", {}).get(stream.tap_stream_id) else config["starts_at"]
 
         while True:
-            attr["starts_at"] = attr["end_date"] = starts_at
+            attr["starts_at"] = attr["ends_at"] = starts_at
             LOGGER.info("Querying Date --> %s", attr["starts_at"])
             tap_data = request_data(config, attr, headers)
 
