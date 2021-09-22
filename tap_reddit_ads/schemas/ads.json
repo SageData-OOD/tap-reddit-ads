@@ -1,0 +1,53 @@
+{
+    "type": ["null", "object"],
+    "properties": {
+		"account_id": {
+			"type": ["null", "string"]
+		},
+		"ad_group_id": {
+			"type": ["null", "string"]
+		},
+		"campaign_id": {
+			"type": ["null", "string"]
+		},
+		"click_trackers": {
+			"type": ["null", "string"]
+		},
+		"click_url": {
+			"type": ["null", "string"]
+		},
+		"configured_status": {
+			"type": ["null", "string"]
+		},
+		"effective_status": {
+			"type": ["null", "string"]
+		},
+		"id": {
+			"type": ["null", "string"]
+		},
+		"name": {
+			"type": ["null", "string"]
+		},
+		"post_id": {
+			"type": ["null", "string"]
+		},
+		"post_url": {
+			"type": ["null", "string"]
+		},
+		"preview_expiry": {
+			"type": ["null", "string"]
+		},
+		"preview_url": {
+			"type": ["null", "string"]
+		},
+		"rejection_reason": {
+			"type": ["null", "string"]
+		},
+		"search_term": {
+			"type": ["null", "string"]
+		},
+		"third_party_trackers": {
+			"type": ["null", "string"]
+		}
+	}
+}

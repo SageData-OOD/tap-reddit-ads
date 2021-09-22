@@ -13,7 +13,13 @@ from singer.transform import transform
 REQUIRED_CONFIG_KEYS = ["starts_at", "account_id", "refresh_token", "client_id", "client_secret", "user_agent"]
 LOGGER = singer.get_logger()
 HOST = "https://ads-api.reddit.com"
-PATH = "/api/v2.0/accounts/{account_id}/reports"
+PATH = "/api/v2.0/accounts/{account_id}"
+END_POINTS = {
+    "ads_reports": "/reports",
+    "ads": "/ads",
+    "campaigns": "/campaigns",
+    "ad_groups": "/ad_groups"
+}
 
 
 class RedditRateLimitError(Exception):
@@ -45,8 +51,11 @@ def refresh_access_token_if_expired(config):
     return False
 
 
-def get_key_properties():
-    return ["date"]
+def get_key_properties(stream_id):
+    if stream_id == "ads_reports":
+        return ["date"]
+    else:
+        return ["id"]
 
 
 def get_abs_path(path):
@@ -88,8 +97,8 @@ def discover():
     raw_schemas = load_schemas()
     streams = []
     for stream_id, schema in raw_schemas.items():
-        stream_metadata = create_metadata_for_report(schema, get_key_properties())
-        key_properties = get_key_properties()
+        stream_metadata = create_metadata_for_report(schema, get_key_properties(stream_id))
+        key_properties = get_key_properties(stream_id)
         streams.append(
             CatalogEntry(
                 tap_stream_id=stream_id,
@@ -104,8 +113,8 @@ def discover():
 
 @backoff.on_exception(backoff.expo, RedditRateLimitError, max_tries=5, factor=2)
 @utils.ratelimit(1, 1)
-def request_data(config, attr, headers):
-    url = HOST + PATH.format(account_id=config["account_id"])
+def request_data(config, attr, headers, endpoint):
+    url = HOST + PATH.format(account_id=config["account_id"]) + endpoint
     if attr:
         url += "?" + "&".join([f"{k}={v}" for k, v in attr.items()])
 
@@ -119,7 +128,70 @@ def request_data(config, attr, headers):
         raise Exception(response.text)
     data = response.json().get("data", [])
 
-    return data
+    return [data] if isinstance(data, dict) else data
+
+
+def sync_reports(config, state, stream):
+    bookmark_column = "date"
+    mdata = metadata.to_map(stream.metadata)
+    schema = stream.schema.to_dict()
+
+    singer.write_schema(
+        stream_name=stream.tap_stream_id,
+        schema=schema,
+        key_properties=stream.key_properties,
+    )
+    endpoint = END_POINTS[stream.tap_stream_id]
+    headers = dict()
+    attr = dict()
+    starts_at = singer.get_bookmark(state, stream.tap_stream_id, bookmark_column).split(" ")[0] \
+        if state.get("bookmarks", {}).get(stream.tap_stream_id) else config["starts_at"]
+
+    while True:
+        attr["starts_at"] = attr["ends_at"] = starts_at
+        LOGGER.info("Querying Date --> %s", attr["starts_at"])
+        tap_data = request_data(config, attr, headers, endpoint)
+
+        bookmark = attr["starts_at"]
+        with singer.metrics.record_counter(stream.tap_stream_id) as counter:
+            for row in tap_data:
+                # Type Conversation and Transformation
+                transformed_data = transform(row, schema, metadata=mdata)
+
+                # write one or more rows to the stream:
+                singer.write_records(stream.tap_stream_id, [transformed_data])
+                counter.increment()
+                bookmark = max([bookmark, row[bookmark_column]])
+
+        state = singer.write_bookmark(state, stream.tap_stream_id, bookmark_column, bookmark)
+        singer.write_state(state)
+
+        if starts_at < str(datetime.utcnow().date()):
+            starts_at = str(datetime.strptime(starts_at, '%Y-%m-%d').date() + timedelta(days=1))
+        if bookmark >= str(datetime.utcnow().date()):
+            break
+
+
+def sync_endpoints(config, state, stream):
+    mdata = metadata.to_map(stream.metadata)
+    schema = stream.schema.to_dict()
+
+    singer.write_schema(
+        stream_name=stream.tap_stream_id,
+        schema=schema,
+        key_properties=stream.key_properties,
+    )
+    endpoint = END_POINTS[stream.tap_stream_id]
+    tap_data = request_data(config, {}, {}, endpoint)
+
+    with singer.metrics.record_counter(stream.tap_stream_id) as counter:
+        for row in tap_data:
+            # Type Conversation and Transformation
+            transformed_data = transform(row, schema, metadata=mdata)
+
+            # write one or more rows to the stream:
+            singer.write_records(stream.tap_stream_id, [transformed_data])
+            counter.increment()
 
 
 def sync(config, state, catalog):
@@ -127,44 +199,10 @@ def sync(config, state, catalog):
     for stream in catalog.get_selected_streams(state):
         LOGGER.info("Syncing stream:" + stream.tap_stream_id)
 
-        bookmark_column = "date"
-        mdata = metadata.to_map(stream.metadata)
-        schema = stream.schema.to_dict()
-
-        singer.write_schema(
-            stream_name=stream.tap_stream_id,
-            schema=schema,
-            key_properties=stream.key_properties,
-        )
-        headers = dict()
-        attr = dict()
-        starts_at = singer.get_bookmark(state, stream.tap_stream_id, bookmark_column).split(" ")[0] \
-            if state.get("bookmarks", {}).get(stream.tap_stream_id) else config["starts_at"]
-
-        while True:
-            attr["starts_at"] = attr["ends_at"] = starts_at
-            LOGGER.info("Querying Date --> %s", attr["starts_at"])
-            tap_data = request_data(config, attr, headers)
-
-            bookmark = attr["starts_at"]
-            with singer.metrics.record_counter(stream.tap_stream_id) as counter:
-                for row in tap_data:
-                    # Type Conversation and Transformation
-                    transformed_data = transform(row, schema, metadata=mdata)
-
-                    # write one or more rows to the stream:
-                    singer.write_records(stream.tap_stream_id, [transformed_data])
-                    counter.increment()
-                    bookmark = max([bookmark, row[bookmark_column]])
-
-            state = singer.write_bookmark(state, stream.tap_stream_id, bookmark_column, bookmark)
-            singer.write_state(state)
-
-            if starts_at < str(datetime.utcnow().date()):
-                starts_at = str(datetime.strptime(starts_at, '%Y-%m-%d').date() + timedelta(days=1))
-            if bookmark >= str(datetime.utcnow().date()):
-                break
-
+        if stream.tap_stream_id == "ads_reports":
+            sync_reports(config, state, stream)
+        else:
+            sync_endpoints(config, state, stream)
     return
 
 

@@ -1,0 +1,138 @@
+{
+    "type": ["null", "object"],
+    "properties": {
+		"account_id": {
+			"type": ["null", "string"]
+		},
+		"bid_strategy": {
+			"type": ["null", "string"]
+		},
+		"bid_type": {
+			"type": ["null", "string"]
+		},
+		"bid_value": {
+			"type": ["null", "integer"]
+		},
+		"campaign_id": {
+			"type": ["null", "string"]
+		},
+		"configured_status": {
+			"type": ["null", "string"]
+		},
+		"effective_status": {
+			"type": ["null", "string"]
+		},
+		"end_time": {
+			"type": ["null", "string"],
+			"format": "date-time"
+		},
+		"start_time": {
+			"type": ["null", "string"],
+			"format": "date-time"
+		},
+		"goal_type": {
+			"type": ["null", "string"]
+		},
+		"goal_value": {
+			"type": ["null", "integer"]
+		},
+		"id": {
+			"type": ["null", "string"]
+		},
+		"name": {
+			"type": ["null", "string"]
+		},
+		"schedule": {
+			"type": ["null", "array"],
+            "items": {
+              "type": "object",
+              "properties": {
+                "end_day": {
+                  "type": ["null", "integer"]
+                },
+                "end_hour": {
+                  "type": ["null", "integer"]
+                },
+                "start_day": {
+                  "type": ["null", "integer"]
+                },
+                "start_hour": {
+                  "type": ["null", "integer"]
+                }
+              }
+          }
+		},
+		"targeting": {
+			"type": ["null", "object"],
+			"properties": {
+				"communities": {
+					"type": ["null", "string"]
+				},
+				"custom_audience_ids": {
+					"type": ["null", "string"]
+				},
+				"devices": {
+					"type": ["null", "array"],
+					"items": {
+					  "type": "object",
+					  "properties": {
+						"label_map": {
+						  "type": ["null", "string"]
+						},
+						"max_version": {
+						  "type": ["null", "string"]
+						},
+						"min_version": {
+						  "type": ["null", "string"]
+						},
+						"os": {
+						  "type": ["null", "string"]
+						},
+						"type": {
+						  "type": ["null", "string"]
+						}
+					  }
+				  }
+				},
+				"excluded_communities": {
+					"type": ["null", "string"]
+				},
+				"excluded_custom_audience_ids": {
+					"type": ["null", "string"]
+				},
+				"excluded_geolocations": {
+					"type": ["null", "string"]
+				},
+				"excluded_interests": {
+					"type": ["null", "string"]
+				},
+				"excluded_keywords": {
+					"type": ["null", "string"]
+				},
+				"expand_targeting": {
+					"type": ["null", "boolean"]
+				},
+				"geolocations": {
+					"type": ["null", "string"]
+				},
+				"interests": {
+					"type": ["null", "string"]
+				},
+				"locations": {
+					"type": ["null", "string"]
+				},
+				"placements": {
+					"type": ["null", "array"],
+					"items": {
+					  "type": "object",
+					  "properties": {
+						"location": {
+						  "type": ["null", "string"]
+						}
+					  }
+				  }
+				}
+			}
+		}
+	}
+}
