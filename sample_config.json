@@ -1,7 +1,6 @@
 {
   "starts_at": "2021-09-20",
   "account_id": "xxxxxxxx",
-  "access_token": "your reddit access token",
   "refresh_token": "your reddit refresh token",
   "client_id": "your app client_id",
   "client_secret": "your app client_secret",
