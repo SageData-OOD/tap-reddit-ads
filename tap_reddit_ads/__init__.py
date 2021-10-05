@@ -53,7 +53,7 @@ def refresh_access_token_if_expired(config):
 
 def get_key_properties(stream_id):
     if stream_id == "ads_reports":
-        return ["date"]
+        return ["date", "account_id", "campaign_id", "ad_group_id", "ad_id"]
     else:
         return ["id"]
 
