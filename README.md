@@ -8,6 +8,7 @@ This will extracting data from the [Reddit Ads API](https://ads-api.reddit.com/d
 
 - Extracts the following resources:
   - [Reports](https://ads-api.reddit.com/docs/#tag/Reporting)
+  - [Accounts](https://ads-api.reddit.com/docs/#tag/Accounts)
   - [Ads](https://ads-api.reddit.com/docs/#tag/Ads)
   - [Ad_groups](https://ads-api.reddit.com/docs/#tag/Ad-Groups)
   - [Campaigns](https://ads-api.reddit.com/docs/#tag/Campaigns)
