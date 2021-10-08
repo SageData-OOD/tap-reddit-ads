@@ -1,0 +1,30 @@
+{
+    "type": ["null", "object"],
+    "properties": {
+		"id": {
+			"type": ["null", "string"]
+		},
+		"view_attribution_window": {
+			"type": ["null", "string"]
+		},
+		"created_at": {
+			"type": ["null", "string"],
+			"format": "date-time"
+		},
+		"pixel_partner_preferences": {
+			"type": ["null", "string"]
+		},
+		"click_attribution_window": {
+			"type": ["null", "string"]
+		},
+		"attribution_type": {
+			"type": ["null", "string"]
+		},
+		"time_zone_id": {
+			"type": ["null", "string"]
+		},
+		"status": {
+			"type": ["null", "string"]
+		}
+	}
+}

@@ -18,7 +18,8 @@ END_POINTS = {
     "ads_reports": "/reports",
     "ads": "/ads",
     "campaigns": "/campaigns",
-    "ad_groups": "/ad_groups"
+    "ad_groups": "/ad_groups",
+    "accounts": ""
 }
 
 
@@ -73,11 +74,15 @@ def load_schemas():
     return schemas
 
 
-def create_metadata_for_report(schema, key_properties):
+def create_metadata_for_report(stream_id, schema, key_properties):
+    mdata = [{"breadcrumb": [], "metadata": {"inclusion": "available", "forced-replication-method": "FULL_TABLE"}}]
+
     if key_properties:
-        mdata = [{"breadcrumb": [], "metadata": {"table-key-properties": key_properties, "inclusion": "available"}}]
-    else:
-        mdata = [{"breadcrumb": [], "metadata": {"inclusion": "available"}}]
+        mdata[0]["metadata"]["table-key-properties"] = key_properties
+
+    if stream_id == "ads_reports":
+        mdata[0]["metadata"]["forced-replication-method"] = "INCREMENTAL"
+        mdata[0]["metadata"]["valid-replication-keys"] = ["date"]
 
     for key in schema.properties:
         # hence when property is object, we will only consider properties of that object without taking object itself.
@@ -97,7 +102,7 @@ def discover():
     raw_schemas = load_schemas()
     streams = []
     for stream_id, schema in raw_schemas.items():
-        stream_metadata = create_metadata_for_report(schema, get_key_properties(stream_id))
+        stream_metadata = create_metadata_for_report(stream_id, schema, get_key_properties(stream_id))
         key_properties = get_key_properties(stream_id)
         streams.append(
             CatalogEntry(
