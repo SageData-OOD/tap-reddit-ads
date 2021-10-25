@@ -168,8 +168,10 @@ def sync_reports(config, state, stream):
                 counter.increment()
                 bookmark = max([bookmark, row[bookmark_column]])
 
-        state = singer.write_bookmark(state, stream.tap_stream_id, bookmark_column, bookmark)
-        singer.write_state(state)
+        # if there is data, then only we will print state
+        if len(tap_data):
+            state = singer.write_bookmark(state, stream.tap_stream_id, bookmark_column, bookmark)
+            singer.write_state(state)
 
         if starts_at < str(datetime.utcnow().date()):
             starts_at = str(datetime.strptime(starts_at, '%Y-%m-%d').date() + timedelta(days=1))
