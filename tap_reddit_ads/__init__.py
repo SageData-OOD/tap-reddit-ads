@@ -14,6 +14,7 @@ REQUIRED_CONFIG_KEYS = ["starts_at", "account_id", "refresh_token", "client_id",
 LOGGER = singer.get_logger()
 HOST = "https://ads-api.reddit.com"
 PATH = "/api/v2.0/accounts/{account_id}"
+DEFAULT_CONVERSION_WINDOW = 14
 END_POINTS = {
     "ads_reports": "/reports",
     "ads": "/ads",
@@ -136,6 +137,22 @@ def request_data(config, attr, headers, endpoint):
     return [data] if isinstance(data, dict) else data
 
 
+def get_valid_start_date(date_to_poll, conversion_window):
+    """
+    fix for data freshness
+    e.g. Sunday's data is available at 3 AM UTC on Monday
+    If integration is set to sync at 1AM then a problem occurs
+    """
+
+    utcnow = datetime.utcnow()
+    date_to_poll = datetime.strptime(date_to_poll, "%Y-%m-%d")
+
+    if date_to_poll >= utcnow - timedelta(days=conversion_window):
+        date_to_poll = utcnow - timedelta(days=conversion_window)
+
+    return date_to_poll.strftime("%Y-%m-%d")
+
+
 def sync_reports(config, state, stream):
     bookmark_column = "date"
     mdata = metadata.to_map(stream.metadata)
@@ -151,6 +168,8 @@ def sync_reports(config, state, stream):
     attr = dict()
     starts_at = singer.get_bookmark(state, stream.tap_stream_id, bookmark_column).split(" ")[0] \
         if state.get("bookmarks", {}).get(stream.tap_stream_id) else config["starts_at"]
+    conversion_window = config.get("conversion_window", DEFAULT_CONVERSION_WINDOW)
+    starts_at = get_valid_start_date(starts_at, conversion_window)
 
     while True:
         attr["starts_at"] = attr["ends_at"] = starts_at
